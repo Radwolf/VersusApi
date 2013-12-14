@@ -45,7 +45,7 @@ module.exports = function(app) {
 	  var actividad = req.body.actividad;
 	  
 	  // Validemos que nombre 
-	  if (nombreUsuario === '' ||
+	  if (usuario === '' ||
 			  actividad === '' ) {
 		  console.log('ERROR: Campos vacios');
 		  return res.send('Hay campos vacíos, revisar');
