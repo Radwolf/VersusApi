@@ -1,4 +1,4 @@
-var express = require("express"), 
+var express = require("express, 
 	app = express(), 
 	http = require("http"),
 	dateUtils = require("date-utils"),
