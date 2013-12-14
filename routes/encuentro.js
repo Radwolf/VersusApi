@@ -29,14 +29,14 @@ module.exports = function(app) {
   
   // GET - Devuelve el encuentro activo de un retador
   findEncuentroActual = function(req, res) {
-	  Encuentro.find({
+	  Encuentro.findOne({
 		  	retador : req.params.retador,
 		  	resultado: null
-		  }).exec(function(err, encuentros) {
+		  }).exec(function(err, encuentro) {
 			  if (err) {
 				  return handleError(err);
 			  }
-			  res.send(encuentros);
+			  res.send(encuentro);
 		  });
   };
   
