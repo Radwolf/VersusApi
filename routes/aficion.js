@@ -29,49 +29,63 @@ module.exports = function(app) {
   
   // GET - Return a Usuario with specified ID
   findAficion = function(req, res) {
-    Aficion.findById(req.params.id, function(err, aficion) {
-      if(!err) {
-        res.send(aficion);
-      } else {
-        console.log('ERROR: ' + err);
-      }
-    });
+	  Aficion.findOne({
+			usuario : req.params.usuario,
+			actividad: req.params.actividad
+		}).exec(function(err, aficion) {
+			if (err) {
+				return handleError(err);
+			}
+			res.send(aficion);
+		});
   };
   
   // POST - Insert a new Usuario in the DB
   addAficion = function(req, res, next) {
 	  // Obtenemos las variables y las validamos
-	  var usuario = req.body.usuario;
-	  var actividad = req.body.actividad;
+	  var pUsuario = req.body.usuario;
+	  var pActividad = req.body.actividad;
 	  
 	  // Validemos que nombre 
-	  if (usuario === '' ||
-			  actividad === '' ) {
+	  if (pUsuario === '' ||
+			  pActividad === '' ) {
 		  console.log('ERROR: Campos vacios');
 		  return res.send('Hay campos vacíos, revisar');
 	  }
 
-	  var aficion = new Aficion({
-		  usuario:    	usuario,
-		  actividad:	actividad
+	  var newAficion = new Aficion({
+		  usuario:    	pUsuario,
+		  actividad:	pActividad
 	  });
-
-	  aficion.save(function(err) {
-		  if(!err) {
-			  console.log('Created');
-		  } else {
-			  console.log('ERROR: ' + err);
-		  }
-	  });
-		  
-	  return res.send(usuario);
+	  
+	  Aficion.findOne({
+			usuario : pUsuario,
+			actividad:pActividad
+		}).exec(function(err, aficion) {
+			if (err) {
+			  console.log(err);
+			  return next(err);
+			}
+	
+			if (!aficion) {
+				newAficion.save(function(err) {
+				  if(!err) {
+					  console.log('Created');
+				  } else {
+					  console.log('ERROR: ' + err);
+				  }
+			  });
+			}
+		});
+	  
+	  return res.send(pUsuario);
   };
   
   // DELETE - Delete a Aficion with specified ID
   	deleteAficion = function(req, res, next) {
   		var pUsuario = req.params.usuario;
   		var pActividad = req.params.actividad;
-  		Aficion.find({
+  		Aficion.findOne({
   			usuario : pUsuario,
   			actividad:pActividad
   		}).exec(function(err, aficion) {
