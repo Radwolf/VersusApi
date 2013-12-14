@@ -67,7 +67,7 @@ module.exports = function(app) {
 			  return next(err);
 			}
 	
-			if (!aficion) R{
+			if (!aficion){
 				newAficion.save(function(err) {
 				  if(!err) {
 					  console.log('Created');
