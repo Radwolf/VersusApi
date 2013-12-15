@@ -86,9 +86,9 @@ module.exports = function(app) {
   };
   
   // PUT - Actualizamos el encuentro porque el retado acepta el encuentro
-  updateEncuentro = function(req, res) {
+  aceptarEncuentro = function(req, res) {
     Encuentro.findById(req.params.id, function(err, encuentro) {
-      encuentro.retado = req.body.retado;
+      encuentro.retado = req.params.retado;
 
       encuentro.save(function(err) {
         if(!err) {
@@ -102,8 +102,24 @@ module.exports = function(app) {
     });
   };
   
+  registrarResultadoEncuentro = function(req, res) {
+	    Encuentro.findById(req.params.id, function(err, encuentro) {
+	        encuentro.resultado = req.body.resultado;
+
+	        encuentro.save(function(err) {
+	          if(!err) {
+	      	console.log('Updated');
+	          } else {
+	      	console.log('ERROR: ' + err);
+	          }
+
+	          res.send(encuentro);
+	        });
+	      });
+	    };
+  
   // DELETE - Delete a Encuentro with specified ID
-  	deleteEncuentro = function(req, res, next) {
+  	cancelarEncuentro = function(req, res, next) {
   		var retador = req.params.retador;
   		var id = req.params.id;
     	Encuentro.findById(id, function(err, encuentro) {
@@ -129,9 +145,10 @@ module.exports = function(app) {
   app.get('/encuentros', findAllEncuentros);
   app.get('/encuentros/:retador', findEncuentrosByUsuario);
   app.get('/encuentro/:retador', findEncuentroActual);
-  app.get('/encuentros/:actividad', findEncuentrosActualByActividad);
+  app.get('/encuentros/actividad/:actividad', findEncuentrosActualByActividad);
   app.post('/encuentro', addEncuentro);
-  app.put('/encuentro/:retado', updateEncuentro);
-  app.delete('/encuentro/:id/:retador', deleteEncuentro);
+  app.put('/encuentro/:id/:retado', aceptarEncuentro);
+  app.put('/encuentro/:id', registrarResultadoEncuentro);
+  app.delete('/encuentro/:id/:retador', cancelarEncuentro);
   
 };
