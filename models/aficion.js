@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var aficionSchema = new Schema({
   usuario:	{ type: String, required: true },
-  actividad:{ type: Number, required:true }
+  actividad:{ type: String, required: true }
 });
 
 module.exports = mongoose.model('Aficion', aficionSchema);
