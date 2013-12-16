@@ -44,6 +44,7 @@ module.exports = function(app) {
   findEncuentrosActualByActividad = function(req, res) {
 	  Encuentro.find({
 		  	actividad: req.params.actividad,
+		  	retado: null,
 		  	resultado: null
 		  }).exec(function(err, encuentros) {
 			  if (err) {
@@ -57,21 +58,24 @@ module.exports = function(app) {
   addEncuentro = function(req, res, next) {
 	  // Obtenemos las variables y las validamos
 	  var retador = req.body.retador;
-	  var ubicacion = req.body.ubicacion;
+	  var longitud = req.body.longitud;
+	  var latitud = req.body.latitud;
 	  var actividad = req.body.actividad;
 	  
 	  // Validemos que nombre
 	  if (retador === '' ||
-			  ubicacion === '' ||
+			  longitud === '' ||
+			  latitud === '' ||
 			  actividad === '' ) {
 		  console.log('ERROR: Campos vacios');
 		  return res.send('Hay campos vacíos, revisar');
 	  }
 
 	  var encuentro = new Encuentro({
-		  retador:    	retador,
-		  actividad:	actividad,
-		  ubicacion:	ubicacion
+		  retador:  retador,
+		  actividad:actividad,
+		  longitud:	longitud,
+		  latitud:	latitud
 	  });
 
 	  encuentro.save(function(err) {
