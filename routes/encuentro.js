@@ -160,8 +160,8 @@ module.exports = function(app) {
   
   // Link routes and functions
   app.get('/encuentros', findAllEncuentros);
-  app.get('/encuentros/:retador', findEncuentrosByRetador);
-  app.get('/encuentros/:retado', findEncuentrosByRetado);
+  app.get('/encuentros/organizo/:retador', findEncuentrosByRetador);
+  app.get('/encuentros/participo/:retado', findEncuentrosByRetado);
   app.get('/encuentro/:retador', findEncuentroActual);
   app.get('/encuentros/actividad/:actividad/:retador', findEncuentrosActualByActividad);
   app.post('/encuentro', addEncuentro);
