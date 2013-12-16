@@ -14,10 +14,22 @@ module.exports = function(app) {
   	});
   };
   
-  // GET - Return all encuentros in the DB
-  findEncuentrosByUsuario = function(req, res) {
+  // GET - Return all encuentros que has organizado
+  findEncuentrosByRetador = function(req, res) {
   	Encuentro.find({
 		retador : req.params.retador
+	}).exec(function(err, encuentros) {
+		if (err) {
+			return handleError(err);
+		}
+		console.log('Los Encuentros de ' + req.params.retador + ': ', encuentros);
+		res.send(encuentros);
+	});
+  };
+  // GET - Return all encuentros en lo que estas retado
+  findEncuentrosByRetado = function(req, res) {
+  	Encuentro.find({
+		retado : req.params.retado
 	}).exec(function(err, encuentros) {
 		if (err) {
 			return handleError(err);
@@ -46,7 +58,8 @@ module.exports = function(app) {
 		  	actividad: req.params.actividad,
 		  	retado: null,
 		  	resultado: null
-		  }).exec(function(err, encuentros) {
+		  }).where('retador').ne(req.params.retador)
+		  .exec(function(err, encuentros) {
 			  if (err) {
 				  return handleError(err);
 			  }
@@ -147,9 +160,10 @@ module.exports = function(app) {
   
   // Link routes and functions
   app.get('/encuentros', findAllEncuentros);
-  app.get('/encuentros/:retador', findEncuentrosByUsuario);
+  app.get('/encuentros/:retador', findEncuentrosByRetador);
+  app.get('/encuentros/:retado', findEncuentrosByRetado);
   app.get('/encuentro/:retador', findEncuentroActual);
-  app.get('/encuentros/actividad/:actividad', findEncuentrosActualByActividad);
+  app.get('/encuentros/actividad/:actividad/:retador', findEncuentrosActualByActividad);
   app.post('/encuentro', addEncuentro);
   app.put('/encuentro/:id/:retado', aceptarEncuentro);
   app.put('/encuentro/:id', registrarResultadoEncuentro);
