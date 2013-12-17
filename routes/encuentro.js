@@ -43,7 +43,7 @@ module.exports = function(app) {
   findEncuentroActual = function(req, res) {
 	  Encuentro.findOne({
 		  	retador : req.params.retador,
-		  	resultado: null
+		  	retado: null
 		  }).exec(function(err, encuentro) {
 			  if (err) {
 				  return handleError(err);
@@ -58,7 +58,8 @@ module.exports = function(app) {
 		  	actividad: req.params.actividad,
 		  	retado: null,
 		  	resultado: null
-		  }).where('retador').ne(req.params.retador)
+		  })
+		  //.where('retador').ne(req.params.retador)
 		  .exec(function(err, encuentros) {
 			  if (err) {
 				  return handleError(err);
