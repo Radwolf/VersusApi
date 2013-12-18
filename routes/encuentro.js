@@ -59,7 +59,7 @@ module.exports = function(app) {
 		  	retado: null,
 		  	resultado: null
 		  })
-		  //.where('retador').ne(req.params.retador)
+		  .where('retador').ne(req.params.retador)
 		  .exec(function(err, encuentros) {
 			  if (err) {
 				  return handleError(err);
