@@ -7,6 +7,7 @@ var encuentroSchema = new Schema({
   actividad:{ type: String, required:true },
   longitud :{ type: String, required:true },
   latitud  :{ type: String, required:true },
+  ubicacion:{ type: String},
   resultado:{ type: String}
 });
 
