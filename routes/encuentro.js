@@ -75,6 +75,7 @@ module.exports = function(app) {
 	  var longitud = req.body.longitud;
 	  var latitud = req.body.latitud;
 	  var actividad = req.body.actividad;
+	  var ubicacion = req.body.ubicacion;
 	  
 	  // Validemos que nombre
 	  if (retador === '' ||
@@ -89,7 +90,8 @@ module.exports = function(app) {
 		  retador:  retador,
 		  actividad:actividad,
 		  longitud:	longitud,
-		  latitud:	latitud
+		  latitud:	latitud,
+		  ubicacion: ubicacion
 	  });
 
 	  encuentro.save(function(err) {
